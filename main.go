@@ -3,10 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/mux"
-	"net/http"
 	"html/template"
+	"net/http"
 )
-
 
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
@@ -19,9 +18,9 @@ func home(w http.ResponseWriter, r *http.Request) {
 func contact(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	/*
-	fmt.Fprint(w, "To get in touch, please send an email "+
-		"to <a href=\"mailto:support@lenslocked.com\">"+
-		"support@lenslocked.com</a>.")
+		fmt.Fprint(w, "To get in touch, please send an email "+
+			"to <a href=\"mailto:support@lenslocked.com\">"+
+			"support@lenslocked.com</a>.")
 	*/
 	if err := contactTemplate.Execute(w, nil); err != nil {
 		panic(err)
