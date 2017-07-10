@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	//0
 	//"html/template"
 	"net/http"
 
@@ -13,7 +14,7 @@ import (
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	//fmt.Fprint(w, "<h1>Welcome to my awesome site!</h1>")
-	/*
+	/* 3
 	if err := homeTemplate.Execute(w, nil); err != nil {
 		panic(err)
 	}
@@ -31,7 +32,7 @@ func contact(w http.ResponseWriter, r *http.Request) {
 			"to <a href=\"mailto:support@lenslocked.com\">"+
 			"support@lenslocked.com</a>.")
 	*/
-	/*
+	/* 3
 	if err := contactTemplate.Execute(w, nil); err != nil {
 		panic(err)
 	}
@@ -50,7 +51,7 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 		"invalid page.</p>")
 }
 
-/*
+/* 1
 var homeTemplate *template.Template
 var contactTemplate *template.Template
 */
@@ -61,7 +62,7 @@ var contactView *views.View
 func main() {
 	homeView = views.NewView("views/home.gohtml")
 	contactView = views.NewView("views/contact.gohtml")
-/*
+/* 2
 	var err error
 	homeTemplate, err = template.ParseFiles(
 		"views/home.gohtml",
