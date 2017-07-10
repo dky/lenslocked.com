@@ -2,15 +2,24 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
-	"html/template"
+	//"html/template"
 	"net/http"
+
+	"lenslocked.com/views"
+
+	"github.com/gorilla/mux"
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	//fmt.Fprint(w, "<h1>Welcome to my awesome site!</h1>")
+	/*
 	if err := homeTemplate.Execute(w, nil); err != nil {
+		panic(err)
+	}
+	*/
+	err := homeView.Template.Execute(w, nil)
+	if err != nil {
 		panic(err)
 	}
 }
@@ -22,7 +31,13 @@ func contact(w http.ResponseWriter, r *http.Request) {
 			"to <a href=\"mailto:support@lenslocked.com\">"+
 			"support@lenslocked.com</a>.")
 	*/
+	/*
 	if err := contactTemplate.Execute(w, nil); err != nil {
+		panic(err)
+	}
+	*/
+	err := contactView.Template.Execute(w, nil)
+	if err != nil {
 		panic(err)
 	}
 }
@@ -35,10 +50,18 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 		"invalid page.</p>")
 }
 
+/*
 var homeTemplate *template.Template
 var contactTemplate *template.Template
+*/
+
+var homeView *views.View
+var contactView *views.View
 
 func main() {
+	homeView = views.NewView("views/home.gohtml")
+	contactView = views.NewView("views/contact.gohtml")
+/*
 	var err error
 	homeTemplate, err = template.ParseFiles(
 		"views/home.gohtml",
@@ -53,6 +76,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+*/
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", home)
