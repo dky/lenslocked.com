@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"lenslocked.com/views"
-
 	"github.com/gorilla/mux"
 )
 
@@ -19,7 +18,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	*/
-	err := homeView.Template.ExecuteTemplate(w, homeView.layout, nil)
+	err := homeView.Template.ExecuteTemplate(w, homeView.Layout, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -37,7 +36,7 @@ func contact(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	*/
-	err := contactView.Template.ExecuteTemplate(w, contactView.layout, nil)
+	err := contactView.Template.ExecuteTemplate(w, contactView.Layout, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -60,8 +59,12 @@ var homeView *views.View
 var contactView *views.View
 
 func main() {
+	/*
 	homeView = views.NewView("views/home.gohtml")
 	contactView = views.NewView("views/contact.gohtml")
+	*/
+	homeView = views.NewView("bootstrap", "views/home.gohtml")
+	contactView = views.NewView("bootstrap", "views/contact.gohtml")
 /* 2
 	var err error
 	homeTemplate, err = template.ParseFiles(
