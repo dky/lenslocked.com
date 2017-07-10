@@ -19,7 +19,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	*/
-	err := homeView.Template.Execute(w, nil)
+	err := homeView.Template.ExecuteTemplate(w, homeView.layout, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -37,7 +37,7 @@ func contact(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	*/
-	err := contactView.Template.Execute(w, nil)
+	err := contactView.Template.ExecuteTemplate(w, contactView.layout, nil)
 	if err != nil {
 		panic(err)
 	}
