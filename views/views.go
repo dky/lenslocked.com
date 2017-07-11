@@ -10,6 +10,7 @@ var (
 	TemplateExt string = ".gohtml"
 )
 
+// Func that globs all the go templates
 func layoutFiles() []string {
 	files, err := filepath.Glob(LayoutDir + "*" + TemplateExt)
 	if err != nil {
@@ -19,7 +20,9 @@ func layoutFiles() []string {
 }
 
 func NewView(layout string, files ...string) *View {
+	// Reads all files out of the dir
 	files = append(files, layoutFiles()...)
+	// Expands all the files out of the files slice
 	t, err := template.ParseFiles(files...)
 	if err != nil {
 		panic(err)
