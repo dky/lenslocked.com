@@ -8,17 +8,21 @@ import (
 	"github.com/gorilla/mux"
 )
 
+var homeView *views.View
+var contactView *views.View
+
 func home(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	err := homeView.Template.ExecuteTemplate(w, homeView.Layout, nil)
-	if err != nil {
-		panic(err)
-	}
+	must(homeView.Render(w, nil))
 }
 
 func contact(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
-	err := contactView.Template.ExecuteTemplate(w, contactView.Layout, nil)
+	// call the contactView object render function and pass w to it.
+	must(contactView.Render(w, nil))
+}
+
+func must(err error) {
 	if err != nil {
 		panic(err)
 	}
@@ -31,9 +35,6 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 		"<p>Please email us if you keep being sent to an "+
 		"invalid page.</p>")
 }
-
-var homeView *views.View
-var contactView *views.View
 
 func main() {
 	homeView = views.NewView("bootstrap", "views/home.gohtml")
