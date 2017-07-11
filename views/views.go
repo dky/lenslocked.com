@@ -19,14 +19,7 @@ func layoutFiles() []string {
 }
 
 func NewView(layout string, files ...string) *View {
-	/*
-	files = append(files,
-		"views/layouts/footer.gohtml",
-		"views/layouts/navbar.gohtml",
-		"views/layouts/bootstrap.gohtml")
-	*/
 	files = append(files, layoutFiles()...)
-	//template.ParseFiles("a", "b", "c") ... below "unravels the slice"
 	t, err := template.ParseFiles(files...)
 	if err != nil {
 		panic(err)
