@@ -6,7 +6,7 @@ import (
 	//"html/template"
 	"net/http"
 
-	"lenslocked.com/views"
+	"./views"
 	"github.com/gorilla/mux"
 )
 
