@@ -31,6 +31,11 @@ func faqs(w http.ResponseWriter, r *http.Request) {
 	must(faqsView.Render(w, nil))
 }
 
+func signup(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html")
+	must(signupView.Render(w, nil))
+}
+
 func must(err error) {
 	if err != nil {
 		panic(err)
@@ -49,10 +54,11 @@ func main() {
 	homeView = views.NewView("bootstrap", "views/home.gohtml")
 	contactView = views.NewView("bootstrap", "views/contact.gohtml")
 	faqsView = views.NewView("bootstrap_improved", "views/faqs.gohtml")
-	signupView = views.NewView("bootstrap", "views/si
+	signupView = views.NewView("bootstrap", "views/signup.gohtml")
 	r := mux.NewRouter()
 	r.HandleFunc("/", home)
 	r.HandleFunc("/contact", contact)
 	r.HandleFunc("/faqs", faqs)
+	r.HandleFunc("/signup", signup)
 	http.ListenAndServe(":3000", r)
 }
