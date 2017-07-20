@@ -65,5 +65,6 @@ func main() {
 	r.HandleFunc("/faqs", faqs).Methods("GET")
 	//r.HandleFunc("/signup", signup)
 	r.HandleFunc("/signup", usersC.New).Methods("GET")
+	r.HandleFunc("/signup", usersC.Create).Methods("POST")
 	http.ListenAndServe(":3000", r)
 }
