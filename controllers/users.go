@@ -1,8 +1,10 @@
 package controllers
 
 import (
-	"lenslocked.com/views"
+	"fmt"
 	"net/http"
+
+	"lenslocked.com/views"
 )
 
 type Users struct {
@@ -20,4 +22,9 @@ func (u *Users) New(w http.ResponseWriter, r *http.Request) {
 	if err := u.NewView.Render(w, nil); err != nil {
 		panic(err)
 	}
+}
+
+//Post signup
+func (u *Users) Create(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "This is a temporary response.")
 }
