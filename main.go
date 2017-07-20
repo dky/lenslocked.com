@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"lenslocked.com/views"
+	"lenslocked.com/controllers"
 	"github.com/gorilla/mux"
 )
 
@@ -12,7 +13,7 @@ var (
 	homeView *views.View
 	contactView *views.View
 	faqsView *views.View
-	signupView *views.View
+	//signupView *views.View
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
@@ -31,10 +32,12 @@ func faqs(w http.ResponseWriter, r *http.Request) {
 	must(faqsView.Render(w, nil))
 }
 
+/*
 func signup(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	must(signupView.Render(w, nil))
 }
+*/
 
 func must(err error) {
 	if err != nil {
@@ -50,22 +53,17 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 		"invalid page.</p>")
 }
 
-func (u *Users) New(w http.ResponseWriter, r *http.Request) {
-	if err := u.NewView.Render(w, nil); err := nil {
-		panic(err)
-	}
-}
-
-
 func main() {
 	homeView = views.NewView("bootstrap", "views/home.gohtml")
 	contactView = views.NewView("bootstrap", "views/contact.gohtml")
 	faqsView = views.NewView("bootstrap_improved", "views/faqs.gohtml")
-	signupView = views.NewView("bootstrap", "views/signup.gohtml")
+	//signupView = views.NewView("bootstrap", "views/signup.gohtml")
+	usersC := controllers.NewUsers()
 	r := mux.NewRouter()
 	r.HandleFunc("/", home)
 	r.HandleFunc("/contact", contact)
 	r.HandleFunc("/faqs", faqs)
-	r.HandleFunc("/signup", signup)
+	//r.HandleFunc("/signup", signup)
+	r.HandleFunc("/signup", usersC.New)
 	http.ListenAndServe(":3000", r)
 }
