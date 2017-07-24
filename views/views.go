@@ -2,12 +2,12 @@ package views
 
 import (
 	"html/template"
-	"path/filepath"
 	"net/http"
+	"path/filepath"
 )
 
 var (
-	LayoutDir string = "views/layouts/"
+	LayoutDir   string = "views/layouts/"
 	TemplateDir string = "views/"
 	TemplateExt string = ".gohtml"
 )
@@ -41,9 +41,9 @@ func NewView(layout string, files ...string) *View {
 		panic(err)
 	}
 
-	return &View { 
+	return &View{
 		Template: t,
-		Layout: layout,
+		Layout:   layout,
 	}
 }
 
@@ -60,5 +60,5 @@ func (v *View) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 type View struct {
 	Template *template.Template
-	Layout string
+	Layout   string
 }
