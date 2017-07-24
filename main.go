@@ -4,15 +4,15 @@ import (
 	"fmt"
 	"net/http"
 
-	"lenslocked.com/views"
-	"lenslocked.com/controllers"
 	"github.com/gorilla/mux"
+	"lenslocked.com/controllers"
+	"lenslocked.com/views"
 )
 
 var (
-	HomeView *views.View
+	HomeView    *views.View
 	ContactView *views.View
-	FaqsView *views.View
+	FaqsView    *views.View
 )
 
 func must(err error) {
