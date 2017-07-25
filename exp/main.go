@@ -34,22 +34,27 @@ func main() {
 	INSERT INTO users(name, email)
 	VALUES($1, $2)`,
 		"Jon Calhoun", "jon@calhoun.io")
+
 	if err != nil {
 		panic(err)
 	}
 
 	var id int
 	var name, email string
-	row := db.QueryRow(`
+	rows, err := db.Query(`
 	SELECT id, name, email
 	FROM users
-	WHERE id=$1`, 1)
-	err = row.Scan(&id, &name, &email)
+	WHERE email = $1
+	OR ID > $2`,
+	"jon@calhoun.io", 3)
+
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("ID:", id, "Name:", name, "Email:", email)
-
+	for rows.Next() {
+		rows.Scan(&id, &name, &email)
+		fmt.Println("ID:", id, "Name:", name, "Email:", email)
+	}
 	//fmt.Println("Successfully connected!")
 	db.Close()
 }
