@@ -30,6 +30,26 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println("Successfully connected!")
+	_, err = db.Exec(`
+	INSERT INTO users(name, email)
+	VALUES($1, $2)`,
+		"Jon Calhoun", "jon@calhoun.io")
+	if err != nil {
+		panic(err)
+	}
+
+	var id int
+	var name, email string
+	row := db.QueryRow(`
+	SELECT id, name, email
+	FROM users
+	WHERE id=$1`, 1)
+	err = row.Scan(&id, &name, &email)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("ID:", id, "Name:", name, "Email:", email)
+
+	//fmt.Println("Successfully connected!")
 	db.Close()
 }
