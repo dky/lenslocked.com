@@ -16,7 +16,7 @@ const (
 )
 
 func main() {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+ "password=%s dbname=%s sslmode=disable",
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
 	db, err := sql.Open("postgres", psqlInfo)
@@ -28,6 +28,7 @@ func main() {
 	INSERT INTO users(name, email)
 	VALUES($1, $2)`,
 		"Don Ky", "dkynyc@gmail.com")
+
 	if err != nil {
 		panic(err)
 	}
