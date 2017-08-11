@@ -25,6 +25,11 @@ type User struct {
 	Email string `gorm:"not null;unique_index"`
 }
 
+func (us *UserService) DestructiveReset() {
+	us.db.DropTableIfExists(&User{})
+	us.db.AutoMigrate(&User{})
+}
+
 // ByID will look up a user with the provided ID.
 // If the user is found, we will return a nil error
 // If the user is not found, we will return ErrNotFound
