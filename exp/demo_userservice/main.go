@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/dky/lenslocked.com/modules"
+	"lenslocked.com/models"
 
 	_ "github.com/lib/pq"
 )
