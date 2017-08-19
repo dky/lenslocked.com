@@ -12,10 +12,12 @@ type User struct {
 	Email string `gorm:"not null;unique_index"`
 }
 
-//Provides methods for querying, creating and updating users.
-type UserGorm struct {
-	//db *gorm.DB
-	*gorm.DB
+type UserService interface {
+	ByID(id uint) *User
+	ByEmail(email string) *User
+	Create(user *User) error
+	Update(user *User)
+	Delete(id uint)
 }
 
 func NewUserGorm(connectionInfo string) (*UserGorm, error) {
@@ -26,19 +28,40 @@ func NewUserGorm(connectionInfo string) (*UserGorm, error) {
 	return &UserGorm{db}, nil
 }
 
+type UserGorm struct {
+	*gorm.DB
+}
+
 func (ug *UserGorm) ByID(id uint) *User {
-	return nil
+	ret := &User{}
+	err := ug.DB.First(ret, id).Error
+	switch err {
+	case nil:
+		return ret
+	case gorm.ErrRecordNotFound:
+		return nil
+	default:
+		panic(err)
+	}
 }
 
 func (ug *UserGorm) ByEmail(email string) *User {
 	return nil
 }
 
-func (ug *UserGorm) Create(user *User) {
+func (ug *UserGorm) Create(user *User) error {
+	return ug.DB.Create(user).Error
 }
 
-func (ug *UserGorm) Update(user *User) {
+func (ug *UserGorm) Update(user *User) error {
+	return nil
 }
 
-func (ug *UserGorm) Delete(id uint) {
+func (ug *UserGorm) Delete(id uint) error {
+	return nil
+}
+
+func (ug *UserGorm) DestructiveReset() {
+	ug.DropTableIfExists(&User{})
+	ug.AutoMigrate(&User{})
 }
