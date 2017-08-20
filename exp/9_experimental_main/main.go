@@ -56,7 +56,7 @@ func main() {
 		panic("No user found by email!")
 	}
 	fmt.Println("Found the user:", userByEmail)
-
+	
 	fmt.Println("Deleting the user...")
 	if err := ug.Delete(user.ID); err != nil {
 		panic(err)
