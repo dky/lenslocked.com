@@ -16,8 +16,8 @@ type UserService interface {
 	ByID(id uint) *User
 	ByEmail(email string) *User
 	Create(user *User) error
-	Update(user *User)
-	Delete(id uint)
+	Update(user *User) error
+	Delete(id uint) error
 }
 
 type UserGorm struct {

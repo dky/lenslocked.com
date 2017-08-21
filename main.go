@@ -6,6 +6,7 @@ import (
 
 	"lenslocked.com/controllers"
 	"lenslocked.com/models"
+	"lenslocked.com/views"
 
 	"github.com/gorilla/mux"
 )
