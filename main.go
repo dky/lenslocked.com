@@ -47,6 +47,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	
+	ug.AutoMigrate()
 
 	staticC := controllers.NewStatic()
 	usersC := controllers.NewUsers(ug)
