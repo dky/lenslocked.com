@@ -77,7 +77,6 @@ func (ug *UserGorm) byQuery(query *gorm.DB) *User {
 	}
 }
 
-
 func (ug *UserGorm) Create(user *User) error {
 	return ug.DB.Create(user).Error
 }
