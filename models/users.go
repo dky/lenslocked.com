@@ -92,5 +92,10 @@ func (ug *UserGorm) Delete(id uint) error {
 
 func (ug *UserGorm) DestructiveReset() {
 	ug.DropTableIfExists(&User{})
-	ug.AutoMigrate(&User{})
+	//ug.AutoMigrate(&User{})
+	ug.AutoMigrate()
+}
+
+func (ug *UserGorm) AutoMigrate() {
+	ug.DB.AutoMigrate(&User{})
 }
