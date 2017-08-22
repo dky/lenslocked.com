@@ -4,15 +4,25 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"lenslocked.com/controllers"
+	"lenslocked.com/models"
 	"lenslocked.com/views"
+
+	"github.com/gorilla/mux"
 )
 
 var (
 	HomeView    *views.View
 	ContactView *views.View
 	FaqsView    *views.View
+)
+
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "lenslocked_dev"
+	password = "abc123"
+	dbname   = "lenslocked_dev"
 )
 
 func must(err error) {
@@ -30,8 +40,18 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+
+	ug, err := models.NewUserGorm(psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	
+	ug.AutoMigrate()
+
 	staticC := controllers.NewStatic()
-	usersC := controllers.NewUsers()
+	usersC := controllers.NewUsers(ug)
 
 	r := mux.NewRouter()
 	r.Handle("/", staticC.Home).Methods("GET")
