@@ -77,6 +77,6 @@ func (u *Users) Login(w http.ResponseWriter, r *http.Request) {
 	if err := parseForm(r, &form); err != nil {
 		panic(err)
 	}
-	user := UserService.Authenticate(form.Email, form.Password)
+	user := u.UserService.Authenticate(form.Email, form.Password)
 	fmt.Fprintln(w, user)
 }
