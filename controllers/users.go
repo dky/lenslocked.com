@@ -56,6 +56,7 @@ func (u *Users) Create(w http.ResponseWriter, r *http.Request) {
 	user := &models.User{
 		Name: form.Name,
 		Email: form.Email,
+		Password: form.Password,
 	}
 
 	if err := u.UserService.Create(user); err != nil {
