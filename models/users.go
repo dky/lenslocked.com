@@ -20,6 +20,7 @@ type User struct {
 type UserService interface {
 	ByID(id uint) *User
 	ByEmail(email string) *User
+	Authenticate(email, password string) *User
 	Create(user *User) error
 	Update(user *User) error
 	Delete(id uint) error
@@ -110,4 +111,21 @@ func (ug *UserGorm) DestructiveReset() {
 
 func (ug *UserGorm) AutoMigrate() {
 	ug.DB.AutoMigrate(&User{})
+}
+
+func (ug *UserGorm) Authenticate(email, password string) *User {
+	foundUser := ug.ByEmail(email)
+	if foundUser == nil {
+		//No user found with that email address
+		return nil
+	}
+
+	err := bcrypt.CompareHashAndPassword(
+		[]byte(foundUser.PasswordHash),
+		[]byte(password+userPwPepper))
+		if err != nil {
+			//invalid password
+			return nil
+		}
+		return foundUser
 }
