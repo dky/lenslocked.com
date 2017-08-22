@@ -78,5 +78,23 @@ func (u *Users) Login(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	user := u.UserService.Authenticate(form.Email, form.Password)
-	fmt.Fprintln(w, user)
+	if user != nil {
+		cookie := &http.Cookie {
+			Name: "email",
+			Value: form.Email,
+		}
+		http.SetCookie(w, cookie)
+	} else {
+		//fmt.Fprintln(w, user)
+		fmt.Fprintln(w, "Invalid login credentials.")
+	}
+}
+
+func (u *Users) CookieTest(w http.ResponseWriter, r *http.Request) {
+	cookie, err := r.Cookie("email")
+	if err != nil {
+		fmt.Fprintln(w, "Error retreiving the cookie:", err)
+	} else {
+		fmt.Fprintln(w, "Email is:", cookie.Value)
+	}
 }
