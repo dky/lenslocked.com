@@ -6,6 +6,7 @@ import (
 
 	"lenslocked.com/models"
 	"lenslocked.com/views"
+	"lenslocked.com/rand"
 )
 
 /*
@@ -78,6 +79,7 @@ func (u *Users) Login(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	user := u.UserService.Authenticate(form.Email, form.Password)
+	/*
 	if user != nil {
 		cookie := &http.Cookie {
 			Name: "email",
@@ -88,6 +90,28 @@ func (u *Users) Login(w http.ResponseWriter, r *http.Request) {
 		//fmt.Fprintln(w, user)
 		fmt.Fprintln(w, "Invalid login credentials.")
 	}
+	*/
+	if user == nil {
+		fmt.Fprintln(w, "Invalid login credentials.")
+	}
+	rememberToken, err := rand.RememberToken()
+	if err != nil {
+		http.Error(w, "Something went wrong.",
+		http.StatusInternalServerError)
+		return
+	}
+	user.RememberHash = rememberToken
+	if err := u.UserService.Update(user); err != nil {
+		http.Error(w, "Something went wrong.",
+		http.StatusInternalServerError)
+		return
+	}
+	cookie := &http.Cookie {
+		Name: "remember_token",
+		Value: "rememberToken",
+	}
+	http.SetCookie(w, cookie)
+	http.Redirect(w, r, "/cookietest", http.StatusFound)
 }
 
 func (u *Users) CookieTest(w http.ResponseWriter, r *http.Request) {

@@ -15,11 +15,13 @@ type User struct {
 	Email        string `gorm:"not null;unique_index"`
 	Password     string `gorm:"_"` //- tells gorm to not save Password value into the DB.
 	PasswordHash string `gorm:"not null"`
+	RememberHash string `gorm:"not null;unique_index"`
 }
 
 type UserService interface {
 	ByID(id uint) *User
 	ByEmail(email string) *User
+	ByRemember(token string) *User
 	Authenticate(email, password string) *User
 	Create(user *User) error
 	Update(user *User) error
@@ -128,4 +130,9 @@ func (ug *UserGorm) Authenticate(email, password string) *User {
 			return nil
 		}
 		return foundUser
+}
+
+func (ug *UserGorm) ByRemember(token string) *User {
+	return ug.byQuery(
+		ug.DB.Where("remember_hash = ?", token))
 }
